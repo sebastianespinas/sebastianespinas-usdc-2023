@@ -18,17 +18,60 @@
  * @param {JSON} scannedTextObj - A JSON object representing the scanned text.
  * @returns {JSON} - Search results.
  * */ 
- function findSearchTermInBooks(searchTerm, scannedTextObj) {
-    /** You will need to implement your search and 
-     * return the appropriate object here. */
-
+function findSearchTermInBooks(searchTerm, scannedTextObj) {
     var result = {
-        "SearchTerm": "",
-        "Results": []
+      SearchTerm: searchTerm,
+      Results: []
     };
-    
-    return result; 
-}
+    // Loop through each book
+    for (var book of scannedTextObj) {
+      var combinedLines = "";
+      for (var i = 0; i < book.Content.length; i++) {
+        // Combine all lines in each book into one long string
+        combinedLines += book.Content[i].Text + " ";
+      }
+      // Separate all the words from the long string
+      var words = combinedLines.split(' ');
+      console.log(words);
+      // Loop through the array of individual words
+      for (var j = 0; j < words.length; j++) {
+        // Check if the word ends in a hyphen indicating a word break
+        if (words[j].slice(-1) === "-"){
+            // Take away the hyphen at the end and concatenate it with the next one
+            if (words[j].slice(0,-1) +  words[j+1] === searchTerm ) {
+                // Find the line number that contains the search term
+                console.log(j);
+                // We assume that each line has an average of 10 words
+                var lineNumber = book.Content[Math.floor(j / 10)].Line;
+                result.Results.push({
+                  ISBN: book.ISBN,
+                  Page: book.Content[Math.floor(j / 10)].Page,
+                  Line: lineNumber
+                });
+              }
+        } 
+        // Checking for the rest of the words and using regex to match any 
+        // non-word character ([^\w]) at the end of the string ($) and replacing it with and empty string
+        if (words[j].replace(/[^\w]$/, "") === searchTerm) {
+            var lineNumber = book.Content[Math.floor(j / 10)].Line;
+                result.Results.push({
+                  ISBN: book.ISBN,
+                  Page: book.Content[Math.floor(j / 10)].Page,
+                  Line: lineNumber
+                });
+        }
+      }
+    }
+    // Return the result object
+    return result;
+  }
+  
+  
+  
+
+  
+  
+  
 
 /** Example input object. */
 const twentyLeaguesIn = [
@@ -102,3 +145,5 @@ if (test2result.Results.length == 1) {
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
+
+console.log(findSearchTermInBooks("darkness", twentyLeaguesIn));
