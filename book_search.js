@@ -140,6 +140,20 @@ const twentyLeaguesInTwice = [
         ] 
     }
 ]
+
+const noScannedContent = [
+    {
+        "Title": "Twenty Thousand Leagues Under the Sea",
+        "ISBN": "9780000528531",
+        "Content": [] 
+    }
+]
+
+const noBook = [
+    
+]
+
+
     
 /** Example output object */
 const twentyLeaguesOut = {
@@ -268,5 +282,25 @@ if (test8result.Results.length == 1) {
     console.log("FAIL: Test 8");
     console.log("Expected:", "1");
     console.log("Received:", test8result.Results.length);
+}
+
+/** Passing in an empty object */
+const test9result = findSearchTermInBooks("Null", noBook); 
+if (JSON.stringify(twentyLeaguesOutNone) === JSON.stringify(test9result)) {
+    console.log("PASS: Test 9");
+} else {
+    console.log("FAIL: Test 9");
+    console.log("Expected:", twentyLeaguesOutNone);
+    console.log("Received:", test9result);
+}
+
+/** Passing in an object containing a book with no scanned content */
+const test10result = findSearchTermInBooks("Null", noScannedContent); 
+if (JSON.stringify(twentyLeaguesOutNone) === JSON.stringify(test10result)) {
+    console.log("PASS: Test 10");
+} else {
+    console.log("FAIL: Test 10");
+    console.log("Expected:", twentyLeaguesOutNone);
+    console.log("Received:", test10result);
 }
 
