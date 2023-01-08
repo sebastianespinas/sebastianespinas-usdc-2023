@@ -254,8 +254,6 @@ if (test6result.Results.length == 1) {
 const test7result = findSearchTermInBooks("Canadian's", twentyLeaguesIn); 
 if (test7result.Results.length == 1) {
     console.log("PASS: Test 7 ");
-    console.log(test7result);
-
 } else {
     console.log("FAIL: Test 7");
     console.log("Expected:", "1");
@@ -266,8 +264,6 @@ if (test7result.Results.length == 1) {
 const test8result = findSearchTermInBooks("profound", twentyLeaguesIn); 
 if (test8result.Results.length == 1) {
     console.log("PASS: Test 8 ");
-    console.log(test8result);
-
 } else {
     console.log("FAIL: Test 8");
     console.log("Expected:", "1");
