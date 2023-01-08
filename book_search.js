@@ -70,8 +70,54 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
 
   
-/** Example input object. */
+/** Example input objects. */
 const twentyLeaguesIn = [
+    {
+        "Title": "Twenty Thousand Leagues Under the Sea",
+        "ISBN": "9780000528531",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 8,
+                "Text": "now simply went on by her own momentum.  The dark-"
+            },
+            {
+                "Page": 31,
+                "Line": 9,
+                "Text": "ness was then profound; and however good the Canadian\'s"
+            },
+            {
+                "Page": 31,
+                "Line": 10,
+                "Text": "eyes were, I asked myself how he had managed to see, and"
+            } 
+        ] 
+    }
+]
+
+
+const twentyLeaguesInTwice = [
+    {
+        "Title": "Twenty Thousand Leagues Under the Sea",
+        "ISBN": "9780000528531",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 8,
+                "Text": "now simply went on by her own momentum.  The dark-"
+            },
+            {
+                "Page": 31,
+                "Line": 9,
+                "Text": "ness was then profound; and however good the Canadian\'s"
+            },
+            {
+                "Page": 31,
+                "Line": 10,
+                "Text": "eyes were, I asked myself how he had managed to see, and"
+            } 
+        ] 
+    },
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
         "ISBN": "9780000528531",
@@ -105,6 +151,27 @@ const twentyLeaguesOut = {
             "Line": 9
         }
     ]
+}
+
+const twentyLeaguesOutTwice = {
+    "SearchTerm": "the",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 9
+        },
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 9
+        }
+    ]
+}
+
+const twentyLeaguesOutNone = {
+    "SearchTerm": "Null",
+    "Results": []
 }
 
 /*
@@ -142,3 +209,68 @@ if (test2result.Results.length == 1) {
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
+
+/** Two Books in the object */
+const test3result = findSearchTermInBooks("the", twentyLeaguesInTwice); 
+if (test3result.Results.length == 2) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", twentyLeaguesOutTwice.Results.length);
+    console.log("Received:", test2result.Results.length);
+}
+
+/** No matches should be an empty list */
+const test4result = findSearchTermInBooks("Null", twentyLeaguesIn); 
+if (JSON.stringify(twentyLeaguesOutNone) === JSON.stringify(test4result)) {
+    console.log("PASS: Test 4");
+} else {
+    console.log("FAIL: Test 4");
+    console.log("Expected:", twentyLeaguesOutNone);
+    console.log("Received:", test4result);
+}
+
+/** Testing hyphenated word breaks */
+const test5result = findSearchTermInBooks("darkness", twentyLeaguesIn); 
+if (test5result.Results.length == 1) {
+    console.log("PASS: Test 5");
+} else {
+    console.log("FAIL: Test 5");
+    console.log("Expected:", "1");
+    console.log("Received:", test5result.Results.length);
+}
+
+/** Testing capitalized words */
+const test6result = findSearchTermInBooks("The", twentyLeaguesIn); 
+if (test6result.Results.length == 1) {
+    console.log("PASS: Test 6");
+} else {
+    console.log("FAIL: Test 6");
+    console.log("Expected:", "1");
+    console.log("Received:", test6result.Results.length);
+}
+
+/** Testing nested punctuation */
+const test7result = findSearchTermInBooks("Canadian's", twentyLeaguesIn); 
+if (test7result.Results.length == 1) {
+    console.log("PASS: Test 7 ");
+    console.log(test7result);
+
+} else {
+    console.log("FAIL: Test 7");
+    console.log("Expected:", "1");
+    console.log("Received:", test7result.Results.length);
+}
+
+/** Testing punctuations after a word */
+const test8result = findSearchTermInBooks("profound", twentyLeaguesIn); 
+if (test8result.Results.length == 1) {
+    console.log("PASS: Test 8 ");
+    console.log(test8result);
+
+} else {
+    console.log("FAIL: Test 8");
+    console.log("Expected:", "1");
+    console.log("Received:", test8result.Results.length);
+}
+
